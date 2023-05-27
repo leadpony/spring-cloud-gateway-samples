@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.1
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: secret123
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./keycloak/data:/opt/keycloak/data
+    command:
+      - start-dev
+      - '--hostname=keycloak'
+  gateway:
+    image: spring-cloud-gateway:latest
+    build:
+      context: ./api-gateway
+    environment:
+      CLIENT_SECRET: ${CLIENT_SECRET}
+      RESOURCE_SERVER: resource-server
+    ports:
+      - "18080:18080"
+  resource-server:
+    image: oauth2-resource-server:latest
+    build:
+      context: ./oauth2-resource-server
+    ports:
+      - "8081:8081"

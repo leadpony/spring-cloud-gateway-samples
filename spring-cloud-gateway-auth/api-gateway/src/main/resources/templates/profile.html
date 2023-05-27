@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+    <style>
+      th[scope="row"] {
+        width: 10%
+      }
+    </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Your Profile</h1>
+
+  <h2>User Attributes</h2>
+
+  <table class="table">
+    <tbody>
+      <tr>
+        <th scope="row">ID</th>
+        <td><span th:text="${userId}"></span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Access Token</h2>
+
+  <table class="table text-break">
+    <tbody>
+      <tr>
+        <th scope="row">Value</th>
+        <td><span th:text="${accessToken.tokenValue}"></span></td>
+      </tr>
+      <tr>
+        <th scope="row">Issued at</th>
+        <td><span th:text="${#temporals.format(accessToken.issuedAt, 'yyyy-MM-dd HH:mm:ss', 'Asia/Tokyo')}"></span> (JST)</td>
+      </tr>
+      <tr>
+        <th scope="row">Expires at</th>
+        <td><span th:text="${#temporals.format(accessToken.expiresAt, 'yyyy-MM-dd HH:mm:ss', 'Asia/Tokyo')}"></span> (JST)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <th:block th:if="${refreshToken}">
+
+    <h2>Refresh Token</h2>
+
+    <table class="table text-break">
+      <tbody>
+        <tr>
+          <th scope="row">Value</th>
+          <td><span th:text="${refreshToken.tokenValue}"></span></td>
+        </tr>
+        <tr>
+          <th scope="row">Issued at</th>
+          <td><span th:text="${#temporals.format(refreshToken.issuedAt, 'yyyy-MM-dd HH:mm:ss', 'Asia/Tokyo')}"></span> (JST)</td>
+        </tr>
+        <tr>
+          <th scope="row">Expires at</th>
+          <td><span th:text="${#temporals.format(refreshToken.expiresAt, 'yyyy-MM-dd HH:mm:ss', 'Asia/Tokyo')}"></span> (JST)</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </th:block>
+
+</div>
+</body>
