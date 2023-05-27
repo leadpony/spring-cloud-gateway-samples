@@ -1,0 +1,35 @@
+spring:
+  codec:
+    max-in-memory-size: 128MB
+  cloud:
+    gateway:
+      routes:
+      - id: order-api-csv
+        uri: http://order-api:8080
+        predicates:
+        - Host=order.example.org
+        - Path=/orders
+        - Query=format, csv
+        filters:
+        - name: TabularResponseBody
+          args:
+            mapper: "#{@ordersMapper}"
+            new-content-type: text/csv
+      - id: order-api-saved
+        uri: http://order-api:8080
+        predicates:
+        - Host=order.example.org
+        - Path=/orders
+        - Query=output
+        filters:
+        - SaveResponseBody
+      - id: order-api
+        uri: http://order-api:8080
+        predicates:
+        - Host=order.example.org
+      - id: echo-api
+        uri: http://echo-api:8080
+        predicates:
+        - Host=echo.example.org
+        filters:
+        - ApiKey
