@@ -21,10 +21,16 @@
     <tbody>
       <tr>
         <th scope="row">ID</th>
-        <td><span th:text="${userId}"></span></td>
+        <td><span th:text="${user.id}"></span></td>
+      </tr>
+      <tr>
+        <th scope="row">API Key</th>
+        <td><span th:text="${user.apiKey}"></span></td>
       </tr>
     </tbody>
   </table>
+
+  <hr />
 
   <h2>Access Token</h2>
 

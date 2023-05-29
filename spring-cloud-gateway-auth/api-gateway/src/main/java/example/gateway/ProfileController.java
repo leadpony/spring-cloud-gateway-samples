@@ -11,12 +11,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ProfileController {
 
+    private final ApiUserRepository userRepos;
+
+    public ProfileController(ApiUserRepository userRepos) {
+        this.userRepos = userRepos;
+    }
+
     @GetMapping("/profile")
     public String profile(
             Model model,
             @RegisteredOAuth2AuthorizedClient("keycloak") OAuth2AuthorizedClient authorizedClient) {
 
-        model.addAttribute("userId", authorizedClient.getPrincipalName());
+        ApiUser user = userRepos.findUser(authorizedClient.getPrincipalName());
+
+        model.addAttribute("user", user);
 
         OAuth2AccessToken accessToken = authorizedClient.getAccessToken();
         model.addAttribute("accessToken", accessToken);
