@@ -10,6 +10,12 @@ import org.springframework.security.web.server.context.WebSessionServerSecurityC
 @Configuration
 public class SecurityConfig {
 
+    private final ApiUserSessionRegistry sessionRegistry;
+
+    public SecurityConfig(ApiUserSessionRegistry sessionRegistry) {
+        this.sessionRegistry = sessionRegistry;
+    }
+
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http.authorizeExchange(authorize ->
@@ -25,7 +31,8 @@ public class SecurityConfig {
     @Bean
     public GatewaySecurityContextRepository securityContextRepository() {
         return new GatewaySecurityContextRepository(
-                new WebSessionServerSecurityContextRepository()
+                new WebSessionServerSecurityContextRepository(),
+                sessionRegistry
                 );
     }
 }
